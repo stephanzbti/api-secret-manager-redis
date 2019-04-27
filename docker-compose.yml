@@ -1,0 +1,23 @@
+version: "2"
+services:
+  secretapi:
+    image: secret:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - /secret/apps:/secret/apps
+    depends_on:
+      - redis
+    links:
+      - redis
+    environment:
+      - FLASK_ENV=production
+      - REDIS=redis
+      - REDIS_PASSWORD=4nr7Y0OnoBpz6aCUN14mptXz5wob6FS0
+      - LOG_LEVEL=INFO
+  redis:
+    image: redis
+    container_name: cache
+    command: redis-server --requirepass 4nr7Y0OnoBpz6aCUN14mptXz5wob6FS0
+    expose:
+      - 6379
