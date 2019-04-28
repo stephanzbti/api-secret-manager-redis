@@ -15,6 +15,7 @@ services:
       - REDIS=redis
       - REDIS_PASSWORD=4nr7Y0OnoBpz6aCUN14mptXz5wob6FS0
       - LOG_LEVEL=INFO
+      - PORT=3000
   redis:
     image: redis
     container_name: cache
