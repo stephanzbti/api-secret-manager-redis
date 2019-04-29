@@ -1,8 +1,8 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
-import src.controller.secret.getsecret as GetSecret
-import src.controller.secret.removeAll as RemoveAll
-import src.controller.secret.remove as Remove
+from src.controller.secret.getsecret import GetSecret as GetSecret
+from src.controller.secret.removeAll import RemoveAll as RemoveAll
+from src.controller.secret.remove import Remove as Remove
 from decouple import config
 
 PORT = config('PORT', '3000')
