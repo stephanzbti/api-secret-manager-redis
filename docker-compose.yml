@@ -1,11 +1,9 @@
 version: "2"
 services:
   secretapi:
-    image: secret:latest
+    build: .
     ports:
       - "3000:3000"
-    volumes:
-      - /secret/apps:/secret/apps
     depends_on:
       - redis
     links:
