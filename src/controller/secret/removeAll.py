@@ -1,12 +1,13 @@
 from src.dao.aws_connect import get_secret
 from flask_restful import Resource, Api
-from flask import Flask, request
+from flask import Flask, request, Response
 import logging as log
 import json
 from src.dao.dbConn import connectionRedis
 from decouple import config
 
 log_level = config('LOG_LEVEL', 'DEBUG')
+redis_password = config('REDIS_PASSWORD', '')
 log.basicConfig(format='%(levelname)s:%(message)s', level=log_level)
 
 conn = connectionRedis()
@@ -26,10 +27,10 @@ class RemoveAll(Resource):
                 resp = conn.flushall()
                 log.debug('[DEBUG] RemoveAll: Resp: '+json.dumps(resp))
                 log.info('[INFO] RemoveAll: REDIS: Cache clean!')
-                return {'message': 'REDIS: Cache cleaned', 'status': 200}
+                return Response({'message': 'REDIS: Cache cleaned'}, status=200, mimetype='application/json') 
             else:
                 log.info('[INFO] RemoveAll: ERROR: Authentication failed')
-                return {'message': 'ERROR: Authentication failed', 'status': 500}
+                return Response({'message': 'ERROR: Authentication failed'}, status=500, mimetype='application/json')
         except:
             log.error('[ERROR] Problem when remove Secret')
-            return {'message': 'Problem when remove secret', 'status': 500}
+            return Response({'message': 'Problem when remove secret'}, status=500, mimetype='application/json')
