@@ -1,6 +1,7 @@
 from src.dao.aws_connect import get_secret
 from flask_restful import Resource, Api
 from flask import Flask, request, Response
+from flask_jwt_simple import jwt_required
 import logging as log
 import json
 from src.dao.dbConn import connectionRedis
@@ -12,6 +13,7 @@ log.basicConfig(format='%(levelname)s:%(message)s', level=log_level)
 conn = connectionRedis()
 
 class Remove(Resource):
+    @jwt_required
     def post(self):
         try:
             data = request.data.decode()

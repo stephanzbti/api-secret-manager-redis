@@ -14,6 +14,7 @@ services:
       - REDIS_PASSWORD=4nr7Y0OnoBpz6aCUN14mptXz5wob6FS0
       - LOG_LEVEL=DEBUG
       - PORT=3000
+      - JWT_SECRET=P3A2g5iknU0SENfZib9c0jY30MEbg6nw
   redis:
     image: redis
     container_name: cache
