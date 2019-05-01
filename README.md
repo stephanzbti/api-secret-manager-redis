@@ -14,6 +14,10 @@ Toda a aplicação pode rodar dentro de um contâiner Docker, junto com o Docker
 
 Essa API foi desenvolvida com o módulo do Flask Restful, desta forma ela atende a todas as necessidades RestFul que uma API de microserviço necessitária. Ela pode ser feito o acesso por qualquer outro microserviço que necessita-se de uma determinada secret, independente da secret que o microserviço necessitá, sendo necessário apenas informar qual a secret, aws_login, aws_secret e region que essa secret está armazenada.
 
+Para acessar os EndPoints dessa aplicação, é necessário configurar um Header do tipo **Authorization: Bearer**, pois está aplicação está com autenticação de JWT Simples. Para isso será necessário gerar o JWT em qualquer site, que faça a geração de JWT Simples, utilizando a Secret que for informada ao iniciar a aplicação.
+
+[JWT.IO](https://jwt.io)
+
 #### EndPoint: '/getsecret'
 
 Este EndPoint serve para buscar o secret dentro do Redis, ou caso não exista, diretamente no AWS Secret Manager.
@@ -65,6 +69,7 @@ REDIS -> Redis URK
 REDIS_PASSWORD -> Redis Password
 LOG_LEVEL -> Logger Level Info
 PORT -> Porta de execução da aplicação
+JWT_SECRET -> Secret do JWT
 ```
 
 ### Estrutura dos Dados
@@ -72,18 +77,22 @@ PORT -> Porta de execução da aplicação
 Esta aplicação foi estruturada pensando de maneira simples e fácil de dar manutenção, porntato sendo da seguinte maneira:
 
 ```
-api-start.py
+apistart.py
 src/
-    - controller
-        - secret
+    - routes.py
+    - controller/
+        - secret/
             getsecret.py
             remove.py
             removeAll.py
-    - dao
+    - dao/
         - aws_connect.py
         - dbConn.py
-    - config
+    - config/
         - aws_regions.py
+        - jwt_config.py
+    - utils/
+        - messages.py
 ```
 
 ### Dependências API
@@ -105,6 +114,7 @@ redis
 Flask-RESTful
 Flask
 json
+Flask-JWT-Simple
 ```
 
 ### Execução da Aplicação
